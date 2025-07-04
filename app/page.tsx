@@ -1,4 +1,4 @@
-import { decode } from "html-entities";
+import { animate } from "framer-motion";
 import PostItem from "./components/PostItem";
 
 interface Post {
@@ -22,32 +22,42 @@ async function getPosts(): Promise<Post[]> {
 
 export default async function Home() {
   const posts = await getPosts();
-  const postProps = [
-    { bgColor: "#F872DB", yPosition: 130, rotation: -10, zIndex: 2 },
-    { bgColor: "#71f77f", yPosition: 150, rotation: 5, zIndex: 0 },
-    { bgColor: "#71c8f7", yPosition: 175, rotation: 6, zIndex: 1 },
-    { bgColor: "#ea8f78", yPosition: 100, rotation: -3, zIndex: 0},
-    { bgColor: "#7ba0f2", yPosition: 200, rotation: -6, zIndex: 1 },
-    { bgColor: "#f7f886", yPosition: 0, rotation: 5, zIndex: 0},
-    { bgColor: "#96f5cb", yPosition: 200, rotation: -1, zIndex: 1 },
+
+  const postProps: {
+    bgColor: string;
+    marginTop: number;
+    rotation: number;
+    zIndex: number;
+    animationDirection: "left" | "right";
+  }[] = [
+    { bgColor: "#F872DB", marginTop: 130, rotation: -10, zIndex: 2, animationDirection: "left" },
+    { bgColor: "#71f77f", marginTop: 90, rotation: 5, zIndex: 0, animationDirection: "right" },
+    { bgColor: "#71c8f7", marginTop: 150, rotation: 6, zIndex: 1, animationDirection: "left" },
+    { bgColor: "#ea8f78", marginTop: 100, rotation: -3, zIndex: 0, animationDirection: "right" },
+    { bgColor: "#7ba0f2", marginTop: 300, rotation: -10, zIndex: 1, animationDirection: "left" },
+    { bgColor: "#f7f886", marginTop: -150, rotation: 8, zIndex: 0, animationDirection: "right" },
+    { bgColor: "#96f5cb", marginTop: 275, rotation: -2, zIndex: 1, animationDirection: "left" },
   ];
 
   return (
-      <main className="flex flex-col">
-        {posts.slice(0, postProps.length).map((post, index) => {
-          const config = postProps[index];
-          return (
-            <PostItem
-              key={post.id}
-              id={post.id}
-              title={post.title.rendered}
-              bgColor={config.bgColor}
-              yPosition={config.yPosition}
-              rotation={config.rotation}
-              zIndex={config.zIndex}
-            />
-          );
-        })}
+      <main className="w-full flex flex-col items-center">
+        <div className="max-w-[1440px] overflow-hidden pb-50">
+          {posts.slice(0, postProps.length).map((post, index) => {
+            const config = postProps[index];
+            return (
+              <PostItem
+                key={post.id}
+                id={post.id}
+                title={post.title.rendered}
+                bgColor={config.bgColor}
+                marginTop={config.marginTop}
+                rotation={config.rotation}
+                zIndex={config.zIndex}
+                animationDirection={config.animationDirection}
+              />
+            );
+          })}
+        </div>
       </main>
   );
 }

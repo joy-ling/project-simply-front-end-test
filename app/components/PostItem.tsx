@@ -1,14 +1,16 @@
 "use client";
 
 import { decode } from "html-entities";
+import { motion } from "framer-motion";
 
 export interface PostItemProps {
   id: number;
   title: string;
   bgColor: string;
-  yPosition: number;
   rotation: number;
+  marginTop: number;
   zIndex: number;
+  animationDirection: "left" | "right";
 }
 
 // Removing HTML Entities and unicode stuff
@@ -20,22 +22,35 @@ export default function PostItem({
   id,
   title,
   bgColor,
-  yPosition,
   rotation,
-  zIndex
+  marginTop,
+  zIndex,
+  animationDirection = "left",
 }: PostItemProps) {
+  const initialX = animationDirection === "left" ? "-100vw" : "100vw";
+
   return (
-    <div
-      key={id}
-      className={`relative p-5 font-black text-8xl text-black text-nowrap text-clip text-center w-max`}
+    <motion.div
+      className="relative max-w-[1000px]"
       style={{
-        backgroundColor: bgColor,
-        marginTop: `${yPosition}px`,
-        transform: `rotate(${rotation}deg)`,
-        zIndex: zIndex
+        marginTop: `${marginTop}px`,
+        zIndex: zIndex,
+        transformOrigin: "0% 50%"
       }}
+      initial={{ x: initialX, rotate: rotation }}
+      animate={{ x: -100, rotate: rotation }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 1, ease: "easeOut" }}
     >
-      {cleanTitle(title)}
-    </div>
+      <span
+        key={id}
+        className="p-5 font-black text-8xl text-black text-nowrap inline-block"
+        style={{
+          backgroundColor: bgColor
+        }}
+      >
+        {cleanTitle(title).slice(0, 70)}
+      </span>
+    </motion.div>
   );
 }
