@@ -27,7 +27,7 @@ export default function PostItem({
   zIndex,
   animationDirection = "left",
 }: PostItemProps) {
-  const initialX = animationDirection === "left" ? "-100%" : "100%";
+  const initialX = animationDirection === "left" ? "-150%" : "150%";
 
   return (
     <motion.div
@@ -36,21 +36,23 @@ export default function PostItem({
       style={{
         marginTop: `${marginTop}px`,
         zIndex: zIndex,
-        transformOrigin: "0% 50%"
+        transformOrigin: "0% 50%",
+        backgroundColor: "grey",
+        transform: `rotate(${rotation}deg)`,
       }}
-      initial={{ x: initialX, rotate: rotation }}
-      animate={{ x: 0, rotate: rotation }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 1, ease: "easeOut" }}
     >
-      <span
+      <motion.span
         className="p-5 font-black text-8xl text-black text-nowrap inline-block"
         style={{
           backgroundColor: bgColor
         }}
+        initial={{ x: initialX }}
+        animate={{ x: -100 }}
+        viewport={{ once: false, amount: 0.1 }}
+        transition={{ duration: 1, ease: "easeOut" }}
       >
         {cleanTitle(title).slice(0, 70)}
-      </span>
+      </motion.span>
     </motion.div>
   );
 }
