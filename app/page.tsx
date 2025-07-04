@@ -1,4 +1,3 @@
-import { animate } from "framer-motion";
 import PostItem from "./components/PostItem";
 
 interface Post {
