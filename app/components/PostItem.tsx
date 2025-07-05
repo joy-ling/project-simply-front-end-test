@@ -51,10 +51,10 @@ export default function PostItem({
         style={{
           backgroundColor: bgColor
         }}
-        initial={{ x: initialX }}
-        animate={ isInView && { x: -100 }}
+        initial={{ x: initialX, filter: "blur(10px)"  }}
+        animate={ isInView && { x: -100, filter: "blur(0px)" }}
         viewport={{ once: false, amount: 0.1 }}
-        transition={{ duration: 1, ease: "easeOut" }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
       >
         {cleanTitle(title).slice(0, 70)}
       </motion.span>
