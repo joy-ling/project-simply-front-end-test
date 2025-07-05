@@ -2,6 +2,7 @@
 
 import { decode } from "html-entities";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 export interface PostItemProps {
   id: number;
@@ -28,6 +29,7 @@ export default function PostItem({
   animationDirection = "left",
 }: PostItemProps) {
   const initialX = animationDirection === "left" ? "-150%" : "150%";
+  const [isInView, setIsInView] = useState(false);
 
   return (
     <motion.div
@@ -37,8 +39,11 @@ export default function PostItem({
         marginTop: `${marginTop}px`,
         zIndex: zIndex,
         transformOrigin: "0% 50%",
-        backgroundColor: "grey",
         transform: `rotate(${rotation}deg)`,
+      }}
+      onViewportEnter={() => {
+        // when element in viewport , set IsInView true!
+        setIsInView(true);
       }}
     >
       <motion.span
@@ -47,7 +52,7 @@ export default function PostItem({
           backgroundColor: bgColor
         }}
         initial={{ x: initialX }}
-        animate={{ x: -100 }}
+        animate={ isInView && { x: -100 }}
         viewport={{ once: false, amount: 0.1 }}
         transition={{ duration: 1, ease: "easeOut" }}
       >
