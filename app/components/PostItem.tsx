@@ -47,7 +47,7 @@ export default function PostItem({
       }}
     >
       <motion.span
-        className="p-5 font-black text-8xl text-black text-nowrap inline-block"
+        className="p-5 font-inter font-black text-8xl text-black text-nowrap inline-block"
         style={{
           backgroundColor: bgColor
         }}
